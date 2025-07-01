@@ -1,0 +1,270 @@
+\section{Fundamentos teóricos}
+
+\subsection{Funciones de Green}\label{subsect:green}
+
+Las funciones de Green son una herramienta matemática utilizada para resolver ecuaciones diferenciales lineales no homogéneas (\cite{morse_methods_1999}, \cite{farlow_partial_1993}). Una función de Green, denotada como $G(\vec{r}, \vec{r}')$, es la "respuesta al impulso" de un operador diferencial lineal. Esto significa que es la solución a la ecuación diferencial cuando el «término forzante» o «fuente» es una función delta de Dirac, $\delta(\vec{r} - \vec{r}')$, que representa una fuente puntual (una entrada infinitamente aguda y localizada).
+
+Para un operador diferencial lineal $\mathcal{L}$, la función de Green satisface:
+
+\begin{equation}\label{ec:green_diferencial}
+    \mathcal{L} G(\vec{r}, \vec{r}') = \delta(\vec{r} - \vec{r}')
+\end{equation}
+
+donde $\vec{r}$ es el punto de observación y $\vec{r}'$ es el punto de origen.
+
+Una vez que se tiene la función de Green para un operador dado y las condiciones de contorno, se puede encontrar la solución $u(\vec{r})$ a cualquier ecuación no homogénea:
+
+\begin{equation}
+    \mathcal{L} u(\vec{r}) = f(\vec{r})
+\end{equation}
+
+integrando la función de Green multiplicada por el término fuente $f(\vec{r}')$ en todo el dominio:
+
+\begin{equation}
+    u(\vec{r}) = \int G(\vec{r}, \vec{r}') f(\vec{r}') dV'
+\end{equation}
+
+Esta integral suma esencialmente las respuestas de todas las fuentes puntuales infinitesimales que componen la fuente distribuida $f(\vec{r}')$. Esto se basa en la linealidad del operador diferencial, lo que permite la superposición de soluciones.
+
+La solución de la Ecuación de Helmholtz inhomogénea, que viene dada por:
+
+\begin{equation}
+    \nabla^2u + k^2 u = f(\vec{r})
+\end{equation}
+
+puede expresarse en términos de una integral utilizando una función de Green, que utilizando \ref{ec:green_diferencial} debe seguir:
+
+\begin{equation}
+    \nabla^2 G(\vec{r}, \vec{r}') + k^2 G(\vec{r}, \vec{r}') = -\delta(\vec{r} - \vec{r}')
+\end{equation}
+
+La convención del signo para la función delta en el lado derecho puede variar en la literatura, a menudo siendo $-4\pi\delta(\vec{r} - \vec{r}')$ en tres dimensiones por coherencia con la electrostática, pero el principio sigue siendo el mismo.
+
+La forma exacta de la función de Green depende de la dimensión del problema y las condiciones de contorno. Para el caso tridimensional se tiene:
+
+\begin{equation}
+    G(\vec{r}, \vec{r}') = \frac{e^{ik|\vec{r} - \vec{r}'|}}{4\pi|\vec{r} - \vec{r}'|}
+\end{equation}
+
+Otras convenciones en cuanto al signo de la exponencial son posibles. En cambio, para una dimensión espacial se tiene:
+
+\begin{equation}
+    G(x, x') = \frac{e^{ik|x - x'|}}{2ik}
+\end{equation}
+
+Lo que pone de manifiesto la relación de esta ecuación con la resolución de la ecuación de ondas en el espacio de frecuencias, siendo $e^{ik|x - x'|}$ la función base o autofunción con la que se puede representar cualquier otra función. Esto se hace comúnmente al transformar al espacio de momentos en la física cuántica.
+
+\subsection{Electromagnetismo}
+
+Como ya se ha visto, en el vacío las Ecuaciones de Maxwell toman la forma (\cite{griffiths_introduction_2017}, \cite{jackson_classical_1975}, \cite{landau_electrodynamics_1993}): 
+
+\begin{equation}\label{ec:maxwell_vacio_div}
+    \nabla\cdot \mathbf{E} = 0 \quad \nabla\cdot \mathbf{B} = 0 
+\end{equation}
+
+\begin{equation}\label{ec:maxwell_vacio_rot}
+    \nabla\times\mathbf{E} = - \frac{\partial\mathbf{B}}{\partial t}; \quad \nabla\times \mathbf{B} = \mu_0\epsilon_0 \frac{\partial\mathbf{E}}{\partial t}
+\end{equation}
+
+Realizando un promedio de las propiedades microscópicas de un material, es posible llegar a las llamadas ecuaciones de Maxwell en la materia. Se introducen los campos auxiliares de desplazamiento eléctrico $\mathbf{D}$ y excitación magnética $\mathbf{H}$, con lo que queda:
+
+\begin{equation}\label{ec:maxwell_materia_div}
+    \nabla\cdot \mathbf{D} = \rho_f \quad \nabla\cdot \mathbf{B} = 0 
+\end{equation}
+
+\begin{equation}\label{ec:maxwell_materia_rot}
+    \nabla\times\mathbf{E} = - \frac{\partial\mathbf{B}}{\partial t}; \quad \nabla\times \mathbf{H} = \mathbf{J}_f+ \frac{\partial\mathbf{D}}{\partial t}
+\end{equation}
+
+\subsection{Métodos espectrales en la propagación de ondas}\label{subsec:espectral_onda}
+
+Una de las posibles soluciones a las ecuaciones de Maxwell \ref{ec:maxwell_vacio_div}, \ref{ec:maxwell_vacio_rot} toman la forma de ondas, lo que se puede ver fácilmente desacoplando las ecuaciones utilizando la identidad para un rotacional de un rotacional:
+
+\begin{equation}
+    \nabla\times(\nabla\times\mathbf{A}) = \nabla(\nabla\cdot\mathbf{A}) - \nabla^2\mathbf{A}
+\end{equation}
+
+Tomando el rotacional de ambas ecuaciones en \ref{ec:maxwell_vacio_rot} y utilizando tanto la identidad antes mencionada y \ref{ec:maxwell_vacio_div} se puede llegar a: 
+
+\begin{equation}
+    \mu_0\epsilon_0 \frac{\partial^2\mathbf{E}}{\partial t^2} - \nabla^2 \mathbf{E} = 0; \quad
+    \mu_0\epsilon_0 \frac{\partial^2\mathbf{B}}{\partial t^2} - \nabla^2 \mathbf{B} = 0
+\end{equation}
+
+De aquí es posible reconocer la constante $\mu_0\epsilon_0$ como $\frac{1}{c^2}$, donde $c$ es la velocidad de la luz en el vacío. De esta manera, las Ecuaciones de Maxwell se han reducido a dos ecuaciones de ondas involucrando un campo vectorial. Consideremos una onda plana que se encuentra con una abertura u obstáculo de forma cualquiera. Al propagarse a través de esta, suponiendo que la longitud de onda sea de un orden no muy alejado al tamaño de las características más pequeñas de la abertura, se producirá el fenómeno de difracción, "doblando" la onda alrededor de la abertura. Para trabajar con un caso simplificado trabajaremos con la amplitud compleja de la onda $U$ relacionada con la intensidad de los campos. De esta forma tendremos: 
+
+\begin{equation}
+    \left(\nabla^2 - \frac{1}{c^2} \frac{\partial^2 }{\partial t^2}\right) U(x, y, z, t) = 0
+\end{equation}
+
+Suponiendo que tenemos luz monocromática de frecuencia angular $w = 2\pi f$ se pueden buscar soluciones de la siguiente forma: $U(x, y, z, t) = u(x, y, z)e^{-iwt}$. Esto lleva a una Ecuación de Helmholtz:
+
+\begin{equation}
+    \nabla^2 u + k^2u = 0; \quad k = \frac w c = \frac {2\pi}{\lambda}
+\end{equation}
+
+Para soluciones soluciones separables: $u(x, y, z) = f_x(x)\times f_y(y)\times f_z(z)$, se puede llegar a tres ecuaciones para cada una de las funciones $f$:
+
+$$
+    \frac{d^2}{dx^2} f_x(x) + k_x^2f_x(x) = 0;  \quad
+    \frac{d^2}{dy^2} f_y(y) + k_y^2f_y(y) = 0;  \quad
+    \frac{d^2}{dz^2} f_z(z) + k_z^2f_z(z) = 0  
+$$
+
+Junto con la condición: $k^2 = k_x^2 + k_y^2 + k_z^2$. Las soluciones de estas ecuaciones serán senos y cosenos o, de forma equivalente, una exponencial compleja. Volviendo a la función $u$, que pasaremos a denotar $u_s$, al ser una de las posibles soluciones separables, tenemos:
+
+\begin{equation}
+    u_s(x, y, z) = Ae^{ik_x x}e^{ik_y y}e^{ik_z z} = A e^{i(k_x x + k_y y )} e^{\pm z \sqrt{k^2 - k_x^2 - k_y^2}}
+\end{equation}
+
+Se ha resuelto $k_z$ para liberarnos de una de las $k_i$; con $A$ compleja en general. Sabemos que esta solución $u_s$ es solo una de las posibles, para encontrar la solución más general debemos construir una combinación lineal de todas las posibles soluciones con diferentes $k_x$ y $k_y$. Es posible hacer esto con una integral:
+
+\begin{equation}
+    u(x, y, z) = \int_{-\infty}^\infty \int_{-\infty}^\infty dk_x dk_y u_s(x, y, z, k_x, k_y)
+\end{equation}
+
+Se puede desarrollar esta ecuación teniendo en cuenta que la constante $A$ dependerá de $k_x$ y $k_y$:
+
+\begin{equation}
+    u(x, y, z) = \int_{-\infty}^\infty \int_{-\infty}^\infty dk_x dk_y A(k_x, k_y) e^{i(k_x x + k_y y )} e^{\pm z \sqrt{k^2 - k_x^2 - k_y^2}}
+\end{equation}
+
+Entonces en $z = 0$ se tiene:
+
+\begin{equation}
+    u(x, y, 0) = \int_{-\infty}^\infty \int_{-\infty}^\infty dk_x dk_y A(k_x, k_y) e^{i(k_x x + k_y y )}
+\end{equation}
+
+Es posible entonces reconocer que $u$ y $A$ están relacionados por una transformada de Fourier bidimensional, que escribiremos:
+
+\begin{equation}\label{ec:coefs_prop}
+    A(k_x, k_y) = \mathcal{F}[u(x, y, 0)]
+\end{equation}
+
+$A$ es la transformada de Fourier de $u(x, y, z)$ en $z = 0$. De forma más general:
+
+\begin{equation}\label{ec:solucion_wave_Fourier_inv}
+     u(x, y, z) = \mathcal{F}^{-1}[A(k_x, k_y)e^{- z \sqrt{k^2 - k_x^2 - k_y^2}}]
+\end{equation}
+
+Donde hemos escogido el signo menos, lo que tiene como significado que las ondas se propagan en dirección $z$ positivo. Utilizando las dos expresiones \ref{ec:coefs_prop} y \ref{ec:solucion_wave_Fourier_inv} podremos resolver el problema de propagación de estas ondas escalares suponiendo que sabemos la longitud de onda (o el vector de ondas $\mathbf{k}$), la velocidad de la onda y $u(x, y, z)$ en $z = 0$. El problema entonces queda reducido a calcular dos transformadas de Fourier, lo que se puede realizar con sencillez numéricamente. Un ejemplo del uso de este método para resolver la apertura circular puede verse en la figura \ref{fig:ejemplo_diff}. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/ejemplo_diff.png}
+    \caption{Utilizando los métodos expuestos en \ref{subsec:espectral_onda}, es posible resolver la propagación a través de una apertura circular}
+    \label{fig:ejemplo_diff}
+\end{figure}
+
+Analíticamente, se puede continuar mencionando la Ecuación de difracción de Fraunhofer. La Ecuación de difracción de Fraunhofer caracteriza el patrón de difracción de campo lejano de una onda electromagnética tras chocar con una abertura u obstáculo, y se expresa a menudo mediante una transformada de Fourier que relaciona la función de abertura con el patrón observado \cite{lipson_optical_2010}. Existe una similitud fundamental entre la difracción de Fraunhofer y la dispersión de ondas electromagnéticas, basada en la naturaleza ondulatoria de la luz. En ambos casos, una onda electromagnética interactúa con un objeto, ya sea una abertura bien definida o un obstáculo en la difracción, o una partícula o conjunto de partículas en la dispersión. En consecuencia, la onda incidente se redirige en varias direcciones. En la difracción, esta redirección se debe a la superposición e interferencia de las ondículas de Huygens procedentes de las partes no obstruidas del frente de onda. A la inversa, la dispersión implica la interacción de la onda con centros de dispersión individuales dentro del objeto, haciendo que emitan ondas secundarias. Ambos fenómenos se manifiestan como variaciones espaciales en la intensidad de la onda. Los patrones de difracción muestran máximos y mínimos distintivos resultantes de la interferencia constructiva y destructiva, mientras que los patrones de dispersión están influidos por el tamaño, la forma, la composición del dispersor y la longitud de onda de la onda incidente.
+
+Para una apertura circular, el patrón obtenido recibe el nombre de disco de Airy, cuyo tamaño puede ser obtenido a partir de los primeros ceros del patrón (los cuales involucran la función de Bessel de primer orden de orden uno) y se puede expresar como $\sin \theta = 1.22 \frac{\lambda}{d}$.
+
+En última instancia, la difracción puede considerarse un caso específico de dispersión en el que el objeto que provoca la redirección de la onda posee una estructura regular, como una abertura o una rejilla, lo que da lugar a una interferencia coherente y a la formación de patrones bien definidos. La dispersión es un término más amplio que engloba la interacción de las ondas electromagnéticas con diversos objetos, que pueden presentar o no tales estructuras regulares o reemisión coherente.
+
+Partiendo del concepto general de dispersión, el caso específico de la dispersión por turbulencia implica la interacción de las ondas electromagnéticas con fluctuaciones aleatorias del índice de refracción de un medio, como la atmósfera o un fluido, provocadas por un flujo turbulento. Estas fluctuaciones, caracterizadas por remolinos de tamaños variables, actúan como multitud de centros de dispersión débil. A diferencia de la difracción por una abertura bien definida, la dispersión por turbulencia es intrínsecamente aleatoria y dinámica. La onda electromagnética incidente es dispersada en numerosas direcciones por estas variaciones del índice de refracción en constante cambio. Esto da lugar a fenómenos como el parpadeo de las estrellas debido a la dispersión de la luz estelar por la turbulencia atmosférica, o la borrosidad y distorsión de las imágenes vistas a través de medios turbulentos. 
+
+Las propiedades estadísticas de la turbulencia, como el tamaño y la intensidad de las fluctuaciones del índice de refracción, determinan las características de la onda dispersa, incluidas sus fluctuaciones de intensidad (centelleo) y el grado de coherencia espacial. Mientras que la difracción de Fraunhofer considera la dispersión por un objeto fijo y estructurado en el campo lejano, la dispersión por turbulencia implica un medio de dispersión variable en el tiempo, descrito estadísticamente y distribuido por un volumen.
+
+\subsection{Dinámica de fluidos}
+
+La dinámica de fluidos es el estudio del movimiento de líquidos y gases, tratándolos como medios continuos. Aunque existen flujos suaves o laminares, prácticamente todos los flujos de fluidos de interés para científicos e ingenieros son turbulentos. La turbulencia, caracterizada por variaciones caóticas de la velocidad y la presencia de remolinos, es la regla más que la excepción en la dinámica de fluidos. Comprender la turbulencia es crucial para diversas aplicaciones, desde la mejora del diseño de vehículos y motores hasta la comprensión de los flujos fisiológicos. Sin embargo, describir matemáticamente la turbulencia sigue siendo uno de los problemas sin resolver más difíciles de la física clásica. La transición de flujo laminar a turbulento suele producirse cuando la velocidad de un flujo, el tamaño del objeto o la viscosidad del fluido alcanzan un punto crítico, que puede caracterizarse por el número de Reynolds. (\cite{mcdonough_lectures_2009}, \cite{symon_capitulo_1980})
+
+La ecuación de Navier-Stokes, junto con la ecuación de continuidad (conservación de la masa), describe el movimiento de fluidos con viscosidad. En un campo gravitatorio constante $g$ es posible expresarla como:
+
+\begin{equation}
+    \rho \frac{d\vec{v}}{dt} = -\nabla P + \rho\vec{g} + \mu \nabla^2 \vec{v}
+\end{equation}
+
+donde $\vec{v}$ es el campo de velocidad del fluido, $\mu$ es el coeficiente de viscosidad dinámica, $P$ es la presión del fluido y $\rho$ su densidad. Se trata de una ecuación diferencial no lineal, lo que se puede ver expandiendo el término del lado izquierdo de la ecuación como la llamada derivada material: 
+
+\begin{equation}
+    \frac{d \vec{v}}{dt} = \frac{\partial \vec{v}}{\partial t} + \vec{v}\cdot (\nabla \vec v)
+\end{equation}
+
+Se define de esta manera en consistencia con la derivada total de un campo escalar, como $P$, que depende de tanto la posición como el tiempo. El término $\vec{v}\cdot (\nabla \vec v)$ es un término no lineal y es precisamente el que puede dar lugar a turbulencia. La fuerza relativa de la viscosidad puede caracterizarse con el ratio del término inercial $\rho |\frac{d\vec v}{d t}|$ y el término de viscosidad $\mu | \nabla ^2 \vec v|$:
+
+\begin{equation}
+    \frac{\textbf{inertia}}{\textbf{viscosidad}} = \frac{\rho |\frac{d\vec v}{d t}|}{\mu | \nabla ^2 \vec v|} \backsim \frac{\rho \frac{u}{T}}{\mu \frac{u}{L^2}} \backsim \frac{\rho \frac{u}{L/u}}{\mu \frac{u}{L^2}} = \frac{\rho u L}{\mu}
+\end{equation}
+
+Aquí $u$ es una velocidad característica,$L$ es una escala de longitud característica y $T = L/u$ es una escala de tiempo característica. El número de Reynolds se define como este ratio:
+
+\begin{equation}
+    R_e = \frac{\rho u L}{\mu}
+\end{equation}
+
+Cuando el número de Reynolds es bajo, la viscosidad es dominante y el flujo es laminar. En cambio, las turbulencias suelen producirse cuando el número de Reynolds es alto.
+
+En ciertas situaciones es útil considerar el fluido como un campo aleatorio (\cite{chernov_wave_1967}, \cite{tatarski_wave_1967}). Para trabajar con estos campos debido a su gran complejidad es útil definir funciones que proporcionen ciertas características del campo. Una de las más importantes y más utilizadas es el valor medio. Otra de las más utilizadas es la función de correlación. La función de correlación caracteriza la relación estadística mutua entre las fluctuaciones de una magnitud en diferentes puntos del espacio o diferentes instantes de tiempo, dependiendo del contexto. En \cite{chernov_wave_1967}, para una cantidad escalar $\mu (x, y, z, t)$, se puede definir una función de correlación de la siguiente manera si se quiere tomar el proceso como estático en el tiempo:
+
+\begin{equation}\label{ec:correlation_1}
+    N_{12} = \overline{\mu(x_1, y_1, z_1, t)\mu(x_2, y_2, z_2, t)}
+\end{equation}
+
+Donde se debe entender la sobrebarra como el promedio temporal $\overline{f(t)} = \lim_{T\rightarrow{\infty}} \frac{1}{2T}\int_{-T}^T f(t)dt$. En \cite{tatarski_wave_1967} se define la función de correlación de forma general para $f(t)$ como:
+
+\begin{equation}\label{ec:correlation_2}
+    B_f(t_1, t_2) = \overline{[f(t_1) - \overline{f(t_2)}][f^*(t_1) - \overline{f^*(t_2)}]}
+\end{equation}
+
+Para un proceso estacionario en el tiempo (su promedio temporal es constante $\overline{f(t)} = \text{const}$) la función de correlación dependerá unicamente de la diferencia temporal $t_1 - t_2$. Utilizando esto se puede simplificar \ref{ec:correlation_2} a:
+
+\begin{equation}
+    B_f(t_1 -t_2) = \overline{f(t_1)f^*(t_2)}
+\end{equation}
+
+Para facilitar los cálculos, a menudo se escogen funciones de correlación que involucran exponenciales, por ejemplo proporcionales a $e^{r/a}$ (\cite{chernov_wave_1967}) para la correlación de la posición. Estas funciones no caracterizan por completo algunas situaciones físicas. 
+
+Para analizar turbulencia se usa en muchas ocasiones el valor cuadrático medio de la diferencia de una función evaluada en dos puntos, lo que se conoce como la función de estructura \cite{sasiela_electromagnetic_2007}. Mientras que la función de correlación es útil para procesos de alguna forma estacionarios, la función de estructura caracteriza un proceso aleatorio
+con incrementos estacionarios. Para un fluido turbulento como el aire de velocidad $v$ se define como:
+
+\begin{equation}
+    D_v(\vec{r}) = \left\langle{[v(\vec{r}) - \vec{v}(\vec{r}+\vec{a})]^2}\right\rangle
+\end{equation}
+
+Donde los paréntesis angulados indican promedio de todo el conjunto. 
+
+En el subrango inercial (que supone escalas de 1mm a 10m), donde la disipación no es importante se puede realizar la suposición de que la función de estructura depende unicamente de la magnitud de separación $r$ y de la energía depositada por segundo y unidad de masa $\varepsilon$ (\cite{kolmogorov_local_1941}):
+
+\begin{equation}
+    D_v(\vec{r}) = D_v(r) = f(r,\varepsilon)
+\end{equation}
+
+Como las unidades de $\varepsilon$ son $\frac{\text{J}}{\text{kg}\cdot \text{s}} = \frac{\text{m}^2}{\text{s}^3}$, la única combinación posible para formar la función de correlación (que tiene unidades de velocidad al cuadrado) debe tener la forma: 
+
+\begin{equation}\label{ec:estructura_vel_2}
+    D_v(r) = e^2(\varepsilon r)^{\frac{2}{3}}
+\end{equation}
+
+Donde $e$ es una constante. Debido a la característica aleatoria del campo de velocidad, esta distribución solo tiene sentido si la distancia considerada es mucho más grande que una cierta escala interna del fluido $r\gg L_{\text{in}}$. Esta ley se denomina ley de dos tercios y entra dentro de la clase de turbulencia isotrópica y homogénea desarrollada por Kolmogorov.
+
+Fuera del subrango inercial y para separaciones muy pequeñas ($r \ll L_{\text{in}}$) la disipación domina y se tiene flujo laminar. De esta forma se puede expandir $D_v(r)$ en serie, y despreciando los términos superiores se obtiene: 
+
+\begin{equation}\label{ec:estructura_vel_3}
+    D_v(r) = b^2r^2
+\end{equation}
+
+Esto corresponde a un flujo laminar, donde la turbulencia no se ha desarrollado. En ocasiones es necesario trabajar en el espacio de Fourier. Para el coeficiente de refracción, la función de estructura se define como:
+
+\begin{equation}
+    D_n(\vec{r}) = \left\langle \left|n(\vec{a}) - n(\vec{a} + \vec{r})\right|^2 \right\rangle
+\end{equation}
+
+Se puede demostrar con el concepto de aditivos pasivos (\cite{tatarski_wave_1967}) que esta función sigue una expresión con la misma forma que la función de estructura de la velocidad \ref{ec:estructura_vel_2} y \ref{ec:estructura_vel_3}:
+
+\begin{equation}
+    D_n(\mathbf{r}) = C_n^2 r^{2/3}, \quad r \gg L_i
+\end{equation}
+
+\begin{equation}
+    D_n(\mathbf{r}) = C_n^2 \frac{b^2}{e^2} r^2, \quad r \ll L_i
+\end{equation}
+
+Donde $C_n$ expresa la fuerza de la turbulencia. Realizando la transformación al espacio de Fourier (\cite{tatarski_wave_1967}, \cite{sasiela_electromagnetic_2007}) es posible encontrar que el espectro tridimensional $\Psi(k)$ es:
+
+\begin{equation}
+    \Psi = 0.0330054 \cdot C_n^2k^{-11/3}
+\end{equation}
+
+Donde $k$ es el número de onda. Esta clase de espectro se conoce como espectro de Kolmogorov.

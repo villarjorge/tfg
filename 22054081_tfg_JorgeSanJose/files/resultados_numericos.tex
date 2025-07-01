@@ -1,0 +1,231 @@
+\section{Resultados numéricos}
+
+\subsection{Presentación del algoritmo FDTD}
+
+El algoritmo FDTD (de las siglas en inglés Finite Diference Time Domain, que se puede traducir como Diferencia Finita Dominio de Tiempo) propuesto por primera vez por Kane Yee en 1966 (\cite{kane_yee_numerical_1966}) emplea diferencias centrales de segundo orden. Siguiendo \cite{taflove_computational_2010}, \cite{schneider_understanding_2025} el algoritmo será presentado y ejemplificado. Los pasos del algoritmo pueden resumirse como:
+
+\begin{enumerate}
+    \item Sustituir todas las derivadas de las leyes de Ampère y Faraday por diferencias finitas. Discretizar el espacio y el tiempo de forma que los campos eléctricos y magnéticos estén escalonados tanto en el espacio como en el tiempo.
+    \item Resolver las ecuaciones en diferencias resultantes para obtener ecuaciones de actualización que expresen los campos futuros (desconocidos) en términos de los campos pasados (conocidos).
+    \item Obtener los campos magnéticos en el futuro.
+    \item Obtener los campos eléctricos en el futuro
+    \item Repetir los dos pasos anteriores hasta obtener los campos a lo largo de la duración deseada.
+\end{enumerate}
+
+Primero el algoritmo será presentado de forma simplificada en una dimensión espacial y con permitividad y permeabilidad constantes.
+
+En ausencia de cargas y corrientes externas ($\rho_f = 0$, $\mathbf{J}_f = 0$) las ecuaciones de Maxwell en la materia \ref{ec:maxwell_materia_div} y \ref{ec:maxwell_materia_rot} se reducen a:
+
+\begin{equation}\label{ec:maxwell_materia_div_no_libre}
+    \nabla\cdot \mathbf{D} = 0 \quad \nabla\cdot \mathbf{B} = 0 
+\end{equation}
+
+\begin{equation}\label{ec:maxwell_materia_rot_no_libre}
+    \nabla\times\mathbf{E} = - \frac{\partial\mathbf{B}}{\partial t}; \quad \nabla\times \mathbf{H} = \frac{\partial\mathbf{D}}{\partial t}
+\end{equation}
+
+El algoritmo se desarrolla en torno a las ecuaciones que involucran un rotacional y una derivada en el tiempo (las leyes de Ampère y Faraday)-
+
+Suponiendo que el campo eléctrico solo tiene componente en $z$, la primera ecuación de \ref{ec:maxwell_materia_rot_no_libre} (la ley de Faraday) puede simplificarse expandiendo el rotacional, teniendo en cuenta que $\textbf{E} = E_x \hat{x} + E_y \hat{y} + E_z \hat{z}$:
+
+\begin{equation}\label{ec:faraday_1D}
+    -\mu \frac{\partial \textbf{H}}{\partial t} = \nabla \times \textbf{E} = -\frac{\partial E_z}{\partial x} \hat y
+\end{equation}
+
+Expandiendo el el vector $\textbf{H} = H_x \hat{x} + H_y \hat{y} + H_z \hat{z}$ de la ecuación \ref{ec:faraday_1D} se puede ver que $\textbf{H}$ sólo tendrá componente en la dirección $y$. Sabiendo esto la ley de Ampère queda: 
+
+\begin{equation}
+    \epsilon \frac{\partial \textbf{E}}{\partial t} = \nabla \times \textbf{H} = -\frac{\partial H_y}{\partial x} \hat z
+\end{equation}
+
+De esta manera, las ecuaciones escalares a discretizar son:
+
+\begin{equation}
+    \mu \frac{H_y}{\partial t} = \frac{\partial E_z}{\partial x}
+\end{equation}
+
+\begin{equation}
+    \epsilon \frac{E_z}{\partial t} = \frac{\partial H_y}{\partial x}
+\end{equation}
+
+La primera ecuación da la derivada temporal del campo magnético en términos de la derivada espacial del campo eléctrico. A la inversa, la segunda ecuación da la derivada temporal del campo eléctrico en términos de la derivada espacial del campo magnético, del campo eléctrico en función de la derivada espacial del campo magnético. Como se verá, la primera ecuación se utilizará para hacer avanzar el campo magnético en el tiempo, mientras que la segunda se utilizará para hacer avanzar el campo eléctrico. Un método en el que se hace avanzar una cantidad y luego otra, y luego se repite el proceso, se conoce como método "leapfrog" (del inglés "salto de rana").
+
+El siguiente paso es reemplazar las derivadas por diferencias finitas centradas. Los puntos discretos en el espacio y el tiempo se denotarán de la siguiente manera:
+
+\begin{equation}
+    E_z(x, t) \rightarrow (E_z)^q_m 
+\end{equation}
+
+De manera similar se utilizará $(H_y)^q_m$ para el campo magnético. Los puntos discretos de los campos se colocarán en el espacio siguiendo la cuadricula de Yee. De esta forma, el campo eléctrico estará en los puntos enteros de la cuadrícula y el campo magnético en los puntos semienteros. Una representación visual de esta cuadrícula puede verse en \ref{fig:yee_grid_1D}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/yee_grid.png}
+    \caption{Representación visual de la rejilla de Yee en una dimensión}
+    \label{fig:yee_grid_1D}
+\end{figure}
+
+Reemplazando la derivada temporal por una diferencia finita centrada y la derivada espacial por una diferencia finita adelantada, la ley de Faraday se puede discretizar en $\left((m + \frac{1}{2})\Delta x, q\Delta t\right)$:
+
+\begin{equation}
+    \mu \frac{(H_y)^{q+\frac{1}{2}}_{m+\frac{1}{2}} - (H_y)^{q-\frac{1}{2}}_{m+\frac{1}{2}}}{\Delta t} = \frac{(E_z)^q_{m+1}- (E_z)^q_{m}}{\Delta x}
+\end{equation}
+
+Que se puede resolver para encontrar $(H_y)^{q+\frac{1}{2}}_{m+\frac{1}{2}}$:
+
+\begin{equation}\label{ec:update_H_1D}
+    (H_y)^{q+\frac{1}{2}}_{m+\frac{1}{2}} = (H_y)^{q-\frac{1}{2}}_{m+\frac{1}{2}} + \frac{\Delta t}{\mu \Delta x} ((E_z)^q_{m+1}- (E_z)^q_{m})
+\end{equation}
+
+Procediendo de manera similar en $(m\Delta x, (q+ \frac{1}{2})\Delta t)$ para la ley de Ampère:
+
+\begin{equation}
+    \epsilon \frac{(E_z)^{q+1}_{m} - (E_z)^{q}_{m}}{\Delta t} = \frac{(H_y)^{q + \frac{1}{2}}_{m+\frac{1}{2}} - (H_y)^{q+ \frac{1}{2}}_{m-\frac{1}{2}}}{\Delta x}
+\end{equation}
+
+Y resolviendo para encontrar el campo eléctrico en el siguiente paso temporal:
+
+\begin{equation}\label{ec:update_E_1D}
+    (E_z)^{q+1}_{m} = (E_z)^{q}_{m} + \frac{\Delta t}{\epsilon \Delta x}\left((H_y)^{q + \frac{1}{2}}_{m+\frac{1}{2}} - (H_y)^{q+ \frac{1}{2}}_{m-\frac{1}{2}}\right)
+\end{equation}
+
+Estos pasos de resolución para encontrar $(E_z)^{q+1}_{m}$ y $(H_y)^{q+\frac{1}{2}}_{m+\frac{1}{2}}$ son precisamente los que suponen la permeabilidad y permitividad constantes. A la hora de generalizar, se deberá tomar $\epsilon$ y $\mu$ como tensores y se deberá encontrar su inverso.
+
+A menudo es conveniente representar los coeficientes de actualización $\frac{\Delta t}{\epsilon \Delta x}$ y $\frac{\Delta t}{\mu \Delta x}$ en términos de la relación entre lo lejos que puede propagarse la energía en un solo paso temporal y el paso espacial. La velocidad a la que puede viajar la energía electromagnética es la velocidad de la luz en el espacio libre $c = \frac{1}{\sqrt{\epsilon_0 \mu_0}}$ y, por tanto la distancia máxima que puede recorrer la energía en un paso temporal es $c\Delta t$ (el símbolo c se reservará para la velocidad de la luz en el espacio libre). El cociente $S_c = \frac{c\Delta t}{\Delta x}$ suele denominarse el número de Courant (introducido por primera vez en \cite{courant_partial_1956}). Desempeña un papel importante en la determinación de la estabilidad de una simulación. Siendo $\mu = \mu_r \mu_0$ y $\epsilon = \epsilon_r \epsilon_0$, los coeficientes pueden escribirse:
+
+\begin{equation}
+    \frac{\Delta t}{\mu \Delta x} = \frac{S_c}{\mu c} = \frac{S_c \sqrt{\epsilon_0 \mu_0}}{\mu} = \frac{S_c \sqrt{\epsilon_0}}{\mu_r \sqrt{\mu_0}} = \frac{S_c }{\mu_r \eta_0}
+\end{equation}
+
+Junto con $\frac{\Delta t}{\epsilon \Delta x} = \frac{S_c \eta_0}{\epsilon_r}$. $\eta_0 = \sqrt \frac{\epsilon_0}{\mu_0}$ es la impedancia característica del espacio vacío, medida en Ohmnios. Al ser $S_c$, $\mu_r$ y $\epsilon_r$ adimensionales, $\eta_0$ representará todas las unidades del problema. Por ahora la impedancia se considera constante.
+
+En las simulaciones FDTD existen restricciones en cuanto al tamaño del paso temporal. Si es demasiado grande el algoritmo produce resultados inestables (es decir, los números obtenidos carecen de sentido y tienden rápidamente al infinito). En esta fase no vamos a considerar un análisis riguroso de la estabilidad. Sin embargo, pensando en la forma en que se propagan los campos en una cuadrícula FDTD, parece lógico que la energía no pueda propagarse más allá de un paso espacial por cada paso temporal, es decir, $c\Delta t < \Delta x$. Esto se debe a que en el algoritmo FDTD cada nodo solo afecta a sus vecinos más cercanos. En un ciclo completo de actualización de los campos, lo más lejos que podría propagarse una perturbación es un paso espacial. Resulta que la relación óptima para el número de Courant (en términos de minimizar los errores numéricos) es también la relación máxima. Por lo tanto, para las simulaciones unidimensionales consideradas inicialmente:
+
+\begin{equation}
+    S_c = \frac{c\Delta t}{\Delta x} = 1
+\end{equation}
+
+Para poder completar la simulación, es necesario considerar las condiciones de contorno del problema y las condiciones iniciales. Al existir un número finito de puntos, no es posible usar las ecuaciones de actualización para los puntos iniciales y finales, por lo que se deben tratar aparte. En este caso sencillo, se resolverán ambas cuestiones al mismo tiempo: para el campo eléctrico en $x = 0$ se introducirá una fuente que decae exponencialmente; y para el campo magnético en el término del eje x se mantendrá nulo. 
+
+En el caso de dos y tres dimensiones se deben generalizar las ecuaciones de actualización de ambos campos \ref{ec:update_E_1D} y \ref{ec:update_H_1D} mediante la discretización del operador rotacional con todas sus derivadas. Si la permeabilidad y permitividad se permiten variar, se debe encontrar su inverso para poder resolver las ecuaciones de forma eficiente. 
+
+El lenguaje de programación Python junto con la librería de FDTD creada por Floris Laporte (\cite{laport_python_nodate}) fueron escogidos para realizar la mayor parte de la simulación. 
+
+Es necesario discutir tambien las condiciones de contorno. Se mencionarán solo dos: condiciones de contorno periódicas y condiciones absorbentes. Las condiciones de contorno periódicas replican el valor de los campos en unas células en células del lado opuesto. Principalmente simulan periodicidad infinita. 
+
+En simulaciones de FDTD, comúnmente se utilizan (\cite{taflove_computational_2010}) una clase de condición de contorno absorbente llamada Perfectly Matched Layer o PLM (que se puede traducir como capa perfectamente equiparada). La PML es una condición de contorno absorbente muy eficaz utilizada para simular la extensión de una red de cálculo hasta el infinito. Permite que las ondas numéricas escapen del espacio de cálculo con una reflexión insignificante. 
+
+\subsection{Resultados en dos dimensiones}
+
+Para simular el campo electromagnético utilizando el método FDTD, se debe proporcionar tanto la permitividad como la permeabilidad relativas del medio. Esto supone el punto que acopla o une ambos lados de la simulación: el campo electromagnético y el fluido. Para baja intensidades del campo electromagnético, es razonable asumir que el fluido no se ve afectado por el campo electromagnético. Además, debido a las escalas de tiempo de ambas partes de la simulación, (la velocidad de la luz es varios órdenes de magnitud mayor que la velocidad del sonido en cualquier medio) se puede asumir en la mayoría de casos que el fluido es estático con respecto a la propagación de ondas.
+
+De esta forma se pueden esbozar tres pasos para la simulación: simular el fluido, transformar las variables del fluido en permeabilidad y permitividad, y por ultimo simular el campo electromagnético. Sin embargo, una simulación completa del fluido utilizando por ejemplo las ecuaciones de Navier-Stokes puede no ser estrictamente necesaria, ya que muchas de las características de la turbulencia pueden capturarse utilizando campos aleatorios.
+
+Para obtener la permeabilidad y permitividad se puede trabajar con las variables macroscópicas del fluido. Derivar la permeabilidad y permitividad de propiedades microscópicas se discutirá más adelante. Suponiendo que el fluido no es magnético en las condiciones a trabajar, se puede tomar $\mu_r \approx 1$ y por lo tanto:
+
+\begin{equation}
+    n = \sqrt{\epsilon_r \mu_r} \approx \sqrt{\epsilon_r} \Rightarrow \epsilon_r = n^2
+\end{equation}
+
+Inicialmente y por sencillez, se modelará el índice de refracción como un campo aleatorio. Para informar el valor del indice y su distribución para condiciones comúnmente encontradas se pueden usar las fórmulas encontradas en \cite{ciddor_refractive_1996} y \cite{mathar_refractive_2007}. Una fórmula más simple puede encontrarse en \cite{sasiela_electromagnetic_2007}:
+
+\begin{equation}
+    n - 1 = 77.6\times10^{-6}(1 + 7.52\times10^{-3}/\lambda^2)\left(\frac{P}{T}\right)
+\end{equation}
+
+Donde $\lambda$ es la longitud de onda, $P$ es la presión en milibares y $T$ es la temperatura en grados Kelvin. Con esta fórmula se puede representar la permitividad en función de los parámetros de presión y temperatura. Una representación de esta función para un rango de presiones y temperaturas se puede ver en la figura \ref{fig:estimacion_perm_15}. Con esto se puede obtener que para longitud de onda $1.5 \cdot 10^{-5}$, esta estimación da un promedio de $\epsilon_r-1$ de 0.00054, con una desviación estándar de $1\cdot10^{-5}$. Estos valores representan un punto de partida a partir del cual modelar la permitividad como una variable aleatoria gaussiana. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/estimacion_perm_15.png}
+    \caption{Siguiendo \cite{sasiela_electromagnetic_2007} se puede obtener un rango de valores para la permitividad del aire dadas la temperatura y la presión}
+    \label{fig:estimacion_perm_15}
+\end{figure}
+
+En la simulación FDTD se establecerá una rejilla como se puede ver en la figura \ref{fig:setup1}. De esta manera se tendrá unas condiciones de contorno absorbentes, implementadas como PLMs, una fuente con perfil gaussiano, un detector y una zona con la permitividad modificada que representa aire turbulento. De esta manera se intenta modelar un problema de propagación de ondas similar a los vistos en la sección \ref{sec:resultados_teoricos}. Se ha escogido el espaciado de la rejilla como diez veces la longitud de onda de la fuente. La longitud de onda se ha tomado como $\lambda = 2\mu$m en todas las simulaciones.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/setup_2d_1.png}
+    \caption{Esquema visual de la rejilla a simular. Los ejes vienen en índices de la rejilla}
+    \label{fig:setup1}
+\end{figure}
+
+Para crear la zona de permitividad modificada primero se genera una array con unas dimensiones determinadas tomando una muestra aleatoria de una gaussiana. Entonces, esta array se re-escala mediante una interpolación con splines de tercer orden a la resolución necesaria para encajar en la rejilla FDTD. La interpolación es manejada por la función zoom de SciPy. De esta manera se obtienen resultados como \ref{fig:perm_aleatoria}. Controlando las dimensiones iniciales y finales se puede ajustar el tamaño de las inhomogeneidades de la zona. En este caso las dimensiones iniciales eran de 20 por 10 y las finales de 400 por 200, por lo que al ser la longitud de onda diez espacios de rejilla la zona tendrá un tamaño de inhomogeneidades de 20 espacios de rejilla. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/perm_aletoria.png}
+    \caption{Zona de $\epsilon_r$ aleatoria con inhomegenidades de tamaño aproximado de 20 espacios de rejilla}
+    \label{fig:perm_aleatoria}
+\end{figure}
+
+Una vez simulada la rejilla durante los suficientes pasos temporales, la onda se propaga por todo el dominio llegando al detector. El número de pasos temporales tomados fueron 800. Los componentes de los campos finales pueden verse en \ref{fig:campos_fin}. El resultado de la energía en el dominio puede verse en \ref{fig:setup_2d_2}. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/setup_2d_2.png}
+    \caption{Representación de la energía en la rejilla una vez finalizada la simulación. Los ejes vienen en indices de la rejilla}
+    \label{fig:setup_2d_2}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/campos_fin.png}
+    \caption{Componentes de los campos obtenidos tras 800 pasos temporales}
+    \label{fig:campos_fin}
+\end{figure}
+
+La densidad de energía del campo electromagnético es (\cite{jackson_classical_1975}): 
+
+\begin{equation}
+    u = \frac{1}{2} \left(\epsilon E^2 + \frac{1}{\mu} B\right)
+\end{equation}
+
+Teniendo en cuenta que en general $c = \frac{1}{\sqrt{\epsilon_0 \mu_0}}$ y en el caso considerado $\mu = \mu_0$, se puede simplificar la expresión:
+
+\begin{equation}
+    u = \frac{1}{2} \left(\epsilon E^2 + \frac{1}{\mu} B\right) = \frac{1}{2} \epsilon \left(\epsilon_r E^2 + \frac{1}{\epsilon_0\mu_0} B\right) 
+\end{equation}
+
+Por otro lado en términos de $\vec H$:
+
+\begin{equation}
+    u = \frac{1}{2} \left(\epsilon E^2 + \mu H^2 \right) = \frac{1}{2} \left(\epsilon E^2 + \mu_0 H^2 \right) = \frac{1}{2} \epsilon_0 \left(\epsilon_r E^2 +  \frac{1}{\eta^2_0} H^2 \right)
+\end{equation}
+
+Donde $\eta_0 = \sqrt \frac{\epsilon_0}{\mu_0}$ es la impedancia característica del espacio vacío, medida en Ohmios. Como tiene un valor constante de $\eta_0 = 377.0$ será posible despreciar el campo magnético en el cálculo energético, al ser ambos campos de similar orden de magnitud.
+
+Realizando la misma simulación sin la zona de permitividad modificada es posible encontrar una referencia con la que comparar los resultados obtenidos. Esto será de utilidad cuando se comparen estos resultados con los de la sección \ref{sec:resultados_teoricos}. Un resultado de muestra para para el ratio de densidad energética en el detector puede verse en \ref{fig:comparacion_2d}. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/comparacion_2d.png}
+    \caption{Una posible muestra del ratio de la densidad energética promedio en el detector en dos simulaciones: con ($E_1$) y sin ($E_2$) aire turbulento}
+    \label{fig:comparacion_2d}
+\end{figure}
+
+Es posible también encontrar la amplitud máxima en ambas simulaciones para comparar con \ref{ec:log_amplitud}. Esto se puede hacer simplemente encontrando el máximo de la magnitud $|E_1|$ que llega al detector. Para comparar de forma razonable, se encontró la amplitud para diferentes escalas de turbulencia, repitiendo varias veces para cada escala. De esta forma se encontró un promedio del cuadrado del logaritmo. El resultado se puede ver en la figura \ref{fig:log_amlitude1}, con una versión normalizada al valor máximo en la figura \ref{fig:log_amlitude2}. Se realizó un promedio de 10 simulaciones para cada escala de turbulencia, tomándose una rejilla de 200 por 100 puntos.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/log-amplitude.png}
+    \caption{Promedio del logaritmo-amplitud según la escala de la turbulencia, medida en unidades de celda de simulación. La escala de la turbulencia es la magnitud de las inhomogeneidades descritas anteriormente}
+    \label{fig:log_amlitude1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/log-amplitude_good.png}
+    \caption{Promedio normalizado del logaritmo-amplitud según la escala de la turbulencia, medida en unidades de celda de simulación. La función $f(l) \propto l^{-7/3}$ sirve como comparación con \ref{ec:log_amplitud}, para lo cual se ha normalizado dividiendo por el valor máximo del logaritmo-amplitud. }
+    \label{fig:log_amlitude2}
+\end{figure}
+
+Se ha experimentado también con obtener la permitividad a través de las ecuaciones para el índice de refracción dadas en \cite{ciddor_refractive_1996}. En este caso, se han tomado la temperatura y la humedad como campos aleatorios definidos por una distribución gaussiana. Después, asumiendo que el aire es un gas ideal, se ha utilizado la ley de los gases ideales para obtener la presión. Con los datos de longitud de onda, temperatura, presión y humedad se ha encontrado la permitividad. En vez de realizar una interpolación para suavizar el resultado, se exploró realizar una convolución con un kernel constante y gaussiano. Para una temperatura de $T=30\pm7$ y una humedad de $h = 0.3\pm0.05$, junto con un kernel gaussiano de dimensiones 10 celdas por 10 celdas, la permitividad resultante puede verse en \ref{fig:perm_aleatoria_ciddor}. El principal desafío al utilizar este método es mantener las propiedades estadísticas de los campos aleatorios, ya que al realizar convoluciones tanto la media como la desviación estándar tienden a reducirse. Las pruevas preliminares realizadas indican que estas propiedades estadísticas se reducen proporcionalmente a las dimensiones del kernel. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/perm_aletoria_ciddor.png}
+    \caption{Utilizando el modelo dado en \cite{ciddor_refractive_1996}, es posible calcular la permitividad como un campo aleatorio a partir de la temperatura y la humedad. Se a aplicado una convolución para suavizar el resultado.}
+    \label{fig:perm_aleatoria_ciddor}
+\end{figure}

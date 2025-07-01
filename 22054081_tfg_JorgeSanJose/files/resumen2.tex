@@ -1,0 +1,68 @@
+\section{Introducción y Motivación}
+
+Las ondas infrarrojas (IR) son fundamentales en aplicaciones tecnológicas como telecomunicaciones, sensores LIDAR, sistemas de detección remota y dispositivos médicos. Sin embargo, su propagación puede verse afectada por la turbulencia atmosférica, que introduce fluctuaciones en el índice de refracción del aire, causando dispersión, atenuación y distorsión de las señales. Este fenómeno es crítico en aplicaciones donde la fiabilidad de la señal es esencial, como en la comunicación por fibra óptica o en sistemas de navegación autónoma. 
+
+El objetivo de este Trabajo de Fin de Grado (TFG) es investigar el impacto de la turbulencia en la propagación de ondas infrarrojas mediante métodos teóricos y numéricos. La motivación surge de la necesidad de mejorar el rendimiento de sistemas que dependen de estas ondas, especialmente en entornos con condiciones atmosféricas variables. Este estudio busca proporcionar una base teórica sólida y resultados numéricos que puedan orientar el diseño de tecnologías más robustas frente a la turbulencia.
+
+La investigación se centra en modelar la interacción de las ondas IR con un medio turbulento, utilizando herramientas matemáticas y computacionales para analizar cómo las inhomogeneidades del aire afectan la propagación. Este trabajo combina conceptos de electromagnetismo, dinámica de fluidos y métodos numéricos para ofrecer una comprensión integral del fenómeno, con aplicaciones potenciales en telecomunicaciones, meteorología y óptica.
+
+\section{Fundamentos Teóricos}
+
+La propagación de ondas infrarrojas en el vacío se rige por las \textbf{Ecuaciones de Maxwell}, que describen el comportamiento de los campos eléctrico (\(\mathbf{E}\)) y magnético (\(\mathbf{B}\)):
+
+\[
+\nabla \cdot \mathbf{E} = 0, \quad \nabla \cdot \mathbf{B} = 0
+\]
+\[
+\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}, \quad \nabla \times \mathbf{B} = \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t}
+\]
+
+Estas ecuaciones pueden transformarse en ecuaciones de onda desacopladas, mostrando que las ondas electromagnéticas, como las IR, se propagan a la velocidad de la luz (\(c = 1/\sqrt{\mu_0 \epsilon_0}\)). En un medio turbulento, las fluctuaciones en la permitividad (\(\epsilon_r\)) y el índice de refracción alteran esta propagación, introduciendo fenómenos como la difracción y la dispersión.
+
+Un enfoque clave en este trabajo es el uso de \textbf{funciones de Green}, que permiten modelar la respuesta de un sistema a una fuente localizada en un medio inhomogéneo. Estas funciones son esenciales para resolver la ecuación de onda en presencia de turbulencia:
+
+\[
+\left( \nabla^2 - \frac{1}{c^2} \frac{\partial^2}{\partial t^2} \right) U(x, y, z, t) = 0
+\]
+
+Para ondas monocromáticas de frecuencia angular \(\omega\), se deriva la ecuación de Helmholtz:
+
+\[
+\nabla^2 u + k^2 u = 0, \quad k = \frac{\omega}{c} = \frac{2\pi}{\lambda}
+\]
+
+donde \(u\) es la amplitud espacial de la onda y \(k\) el número de onda. Las soluciones separables de esta ecuación, combinadas con integrales que representan combinaciones lineales de modos, permiten modelar la propagación en medios complejos.
+
+La turbulencia se modela como fluctuaciones aleatorias en el índice de refracción, descritas mediante estadísticas como la escala de turbulencia y la varianza de las inhomogeneidades. Además, se emplean conceptos de dinámica de fluidos para caracterizar el comportamiento del aire turbulento, incluyendo modelos como el de Kolmogorov para la distribución de energía en escalas turbulentas.
+
+\section{Resultados Numéricos}
+
+Para estudiar la propagación de ondas IR en un medio turbulento, se implementó el método de \textbf{Diferencias Finitas en el Dominio del Tiempo (FDTD)}, una técnica numérica que discretiza las ecuaciones de Maxwell en una rejilla espacio-temporal. Este método utiliza la \textbf{rejilla de Yee}, que alterna los campos eléctrico y magnético en el espacio para garantizar estabilidad numérica.
+
+Las simulaciones se realizaron en dos dimensiones, modelando un medio con inhomogeneidades aleatorias en la permitividad (\(\epsilon_r\)) para representar la turbulencia. Los resultados muestran que la turbulencia provoca una dispersión significativa de las ondas, reduciendo la energía que llega al detector. Por ejemplo, se observó que, tras 800 pasos temporales, la densidad energética promedio en el detector disminuye en presencia de turbulencia, con una relación inversa a la escala de las inhomogeneidades.
+
+Un resultado destacado es la dependencia de la dispersión con la escala de turbulencia. Gráficamente, se encontró que el logaritmo de la amplitud de la onda disminuye según una relación aproximada de \(f(t) \propto t^{-7/3}\), consistente con modelos teóricos de turbulencia atmosférica. Las figuras generadas en las simulaciones, como la representación de la energía en la rejilla y los campos tras múltiples pasos temporales, ilustran cómo las ondas se distorsionan y pierden coherencia en medios turbulentos.
+
+El uso de un \textbf{kernel gaussiano} en las simulaciones permitió suavizar las fluctuaciones, mejorando la precisión de los cálculos. Los resultados numéricos confirman que la turbulencia no solo atenúa la señal, sino que también introduce variaciones en la fase, afectando aplicaciones sensibles a la coherencia, como la interferometría.
+
+\section{Conclusiones}
+
+Este TFG demuestra que la turbulencia atmosférica tiene un impacto significativo en la propagación de ondas infrarrojas, causando atenuación y dispersión que afectan la calidad de la señal. Los fundamentos teóricos, basados en las ecuaciones de Maxwell y las funciones de Green, proporcionan un marco robusto para modelar este fenómeno. Las simulaciones FDTD revelan que la escala de la turbulencia es un factor crítico, con mayores inhomogeneidades resultando en una mayor pérdida de energía.
+
+Los resultados tienen implicaciones prácticas para tecnologías que dependen de ondas IR, como sistemas de comunicación óptica y sensores remotos. Comprender y mitigar los efectos de la turbulencia puede mejorar la fiabilidad de estos sistemas, especialmente en entornos con condiciones atmosféricas adversas. Por ejemplo, los resultados sugieren que ajustes en la modulación de la señal o el uso de técnicas adaptativas podrían compensar las distorsiones inducidas por la turbulencia.
+
+En el ámbito personal, este proyecto ha fortalecido mi comprensión de la óptica y la simulación numérica, además de desarrollar habilidades en programación y análisis de datos. Las futuras líneas de trabajo podrían incluir simulaciones tridimensionales, la incorporación de variables ambientales como temperatura y presión, y pruebas experimentales para validar los modelos numéricos.
+
+\section{Líneas Futuras}
+
+Se propone extender este estudio a simulaciones en tres dimensiones para capturar mejor la complejidad de la turbulencia atmosférica. Además, sería valioso integrar datos experimentales para comparar con los resultados numéricos y explorar técnicas de óptica adaptativa para mitigar los efectos de la turbulencia en aplicaciones prácticas.
+
+\section{Referencias}
+
+\begin{itemize}
+    \item Griffiths, D. J. (2017). \textit{Introduction to Electrodynamics}. Cambridge University Press.
+    \item Taflove, A., \& Hagness, S. C. (2010). \textit{Computational Electrodynamics: The Finite-Difference Time-Domain Method}. Artech House.
+    \item Schneider, J. B. (2025). \textit{Understanding the Finite-Difference Time-Domain Method}. Recuperado de https://www.w3.edu/~schneidj/fdtd/.
+\end{itemize}
+
+\end{document}

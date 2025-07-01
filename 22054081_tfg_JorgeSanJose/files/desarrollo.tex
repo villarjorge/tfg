@@ -1,0 +1,44 @@
+\section{Desarrollo del trabajo de fin de grado}
+
+\subsection{Planificación del trabajo de fin de grado}
+
+Las tareas/actividades realizadas son:
+
+\begin{itemize}
+    \item  Revisión y expansión de la bibliografía.
+    \item Estudio de la viabilidad de implementar los métodos numéricos en un lenguaje genérico ó utilizar un software ya establecido. Búsqueda de posibles implementaciones en repositorios de código públicos que puedan servir de ejemplo.
+    \item Aprendizaje de la librería FDTD y desarrollo del código de simulación. El desarrollo del código involucra desarrollar la simulación y la creación de figuras para el trabajo.
+    \item Redacción y composición tipográfica del proyecto.
+\end{itemize}
+
+El cronograma inicial del proyecto se puede ver en la figura \ref{fig:cronograma}. Sin embargo, las actividades relacionadas con la obtención de resultados resultaron más difíciles de lo anticipado, por lo que el horario entero debió ser retrasado. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.65\linewidth]{figures/Cronograma1.png}
+    \caption{Cronograma inicial de las actividades del proyecto}
+    \label{fig:cronograma}
+\end{figure}
+
+\subsection{Descripción de la solución, metodologías y herramientas empleadas}
+
+El proyecto aborda la problemática de la propagación de ondas electromagnéticas en medios turbulentos, específicamente las ondas infrarrojas (IR), empleando un enfoque que combina métodos teóricos y numéricos.
+
+La solución busca investigar y comprender el efecto de la turbulencia en la propagación de ondas infrarrojas (IR).Esto se logra mediante la modelización del medio turbulento y la simulación de la interacción de las ondas electromagnéticas con este medio.
+
+En cuanto a los métodos teóricos, se ha realizado una revisión bibliográfica y teórica de las bases de la radiación electromagnética y la mecánica de fluidos, así como los principales problemas del campo y sus soluciones. Dentro de este enfoque se exploran dos aproximaciones, ambas utilizando métodos perturbativos: una aproximación basada en rayos y otra basada en la ecuación de onda.
+    
+En los métodos numéricos el enfoque ha sido utilización algoritmo de Diferencias Finitas en el Dominio del Tiempo (FDTD). Esta metodología implica discretización, actualización de campos, condiciones de contorno y modelado del medio.
+
+Las herramientas de sofware utilizadas son:
+
+\begin{itemize}
+    \item \LaTeX: redacción y composición tipográfica del documento.
+    \item Python: Lenguaje de programación utilizado para la mayor parte de la simulación numérica
+    \item Floris Laporte's FDTD Library: Una librería de Python específica para simulaciones FDTD
+    \item SciPy: Librería de Python para computación científica, utilizada para remuestreo, interpolación y convoluciones.
+    \item Numpy: Librería de Python para cálculos numéricos, utilizada para la manipulación de arrays y operaciones matemáticas.
+    \item Git y Github: Control de versiones y alojamiento de archivos.
+\end{itemize}
+
+Se utilizó "12 steps to Navier-Stokes" \cite{barba_cfd_2018} así como "Lectures in elementary fluid dynamics: physics, mathematics and applications" \cite{mcdonough_lectures_2009} como recursos didácticos. Se consultó también la base de datos "Refractiveindex.info" para el modelaje del indice de refracción.

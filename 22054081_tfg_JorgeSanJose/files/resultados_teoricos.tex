@@ -1,0 +1,327 @@
+\subsection{Resultados teóricos}\label{sec:resultados_teoricos}
+
+Los métodos teóricos utilizados para modelizar las ondas electromagnéticas que se propagan a través de la turbulencia, en particular la atmosférica, se centran principalmente en los efectos de las fluctuaciones del índice de refracción causadas por la mezcla turbulenta (\cite{tatarski_wave_1967}). Estas fluctuaciones pueden provocar fenómenos como la dispersión y fluctuaciones en los parámetros de las ondas, como la amplitud y la fase. Los enfoques teóricos suelen empezar por describir el medio turbulento utilizando conceptos de la teoría de la turbulencia, como las funciones de estructura y el análisis espectral, y después aplican las ecuaciones de Maxwell y la ecuación de ondas para modelizar la propagación de las ondas.
+
+Un punto de partida fundamental son los resultados de la teoría de la turbulencia, especialmente para describir las propiedades estadísticas del flujo turbulento y las fluctuaciones del índice de refracción resultantes. La teoría de Kolmogorov de la turbulencia localmente isótropa se utiliza con frecuencia. Esta teoría introduce el concepto de funciones de estructura para describir campos aleatorios, en particular cuando se trata de funciones aleatorias generalizadas que son más generales que las estacionarias. La microestructura del índice de refracción en un flujo turbulento, que es crucial para la propagación de ondas, se describe utilizando funciones de estructura y funciones espectrales. La densidad espectral de estas fluctuaciones puede representarse y utilizarse en los modelos de propagación de ondas. La representación de campos aleatorios mediante expansiones espectrales generalizadas es una herramienta valiosa para resolver formalmente problemas e interpretar resultados en la teoría de la propagación de ondas en un medio turbulento.
+
+Se pueden discutir dos enfoques teóricos principales para modelar la propagación de ondas:
+
+\begin{itemize}
+    \item Enfoque de óptica geométrica: Este método es aplicable para ondas cortas, concretamente cuando la longitud de onda es mucho menor que la escala interna de la turbulencia. Comienza considerando las ecuaciones de Maxwell para la propagación de ondas en un medio no homogéneo. Para las ondas cortas, en las que las dimensiones geométricas de las inhomogeneidades son mucho mayores que la longitud de onda, pueden despreciarse algunos términos, lo que conduce a una ecuación de onda escalar. El campo de ondas $u$ suele representarse de la forma $u = A e^{iS}$, donde $A$ es la amplitud y $S$ es la fase. Dado que las fluctuaciones del índice de refracción en casos reales son muy pequeñas, puede aplicarse la teoría de perturbaciones para resolver las ecuaciones resultantes de las fluctuaciones de amplitud y fase. El campo aleatorio localmente isótropo de las fluctuaciones del índice de refracción puede representarse mediante integrales estocásticas y expansiones espectrales, que luego se utilizan para calcular las fluctuaciones de amplitud y fase. Este enfoque arroja resultados que muestran que las fluctuaciones de amplitud y fase son proporcionales al cuadrado de la frecuencia y de la distancia recorrida en el medio turbulento, resultados que no dependen de la forma específica de la función espectral o de estructura de las inhomogeneidades. Sin embargo, la teoría basada en la óptica geométrica sólo es válida para distancias limitadas, concretamente cuando $\sqrt{\lambda  L}$ es mucho menor que la escala interna de la turbulencia, o equivalentemente, cuando la distancia $L$ es mucho menor que una distancia crítica $L_{cr}$.
+    \item Ecuación de onda con métodos de perturbación: Cuando no se cumplen las condiciones de la óptica geométrica, en particular para distancias mayores en las que la difracción de la onda por las inhomogeneidades del índice de refracción se hace significativa, es necesario partir de la ecuación de onda completa. Suponiendo que el campo de índice de refracción $n(r)$ es $n(r) = 1 + n_1(r)$ donde $|n_1(r)| \ll 1$, se aplica la teoría de perturbaciones a la ecuación de onda. Se mencionan dos formas del método de perturbación en relación con la propagación de ondas en un medio con pequeñas inhomogeneidades: la forma usual y la forma modificada de Rytov.
+\end{itemize}
+
+\subsubsection{Enfoque de óptica geométrica}
+
+Siguiendo \cite{chernov_wave_1967}, se desarrollará la ecuación de rayos en presencia de inhomogeneidades aleatorias. Se considerará que la escala de estas inhomogeneidades es grande comparado con la longitud de onda $\lambda$.
+
+La ecuación de rayos puede deducirse a partir del principio de Fermat, que establece que el tiempo empleado por la luz en propagarse debe ser mínimo. De esta manera se debe minimizar: 
+
+\begin{equation}
+    S = \int_A^B\frac{d\sigma}{c} = \int_A^B n(x, y, z)d\sigma
+\end{equation}
+
+$n(x, y, z) = \frac{c}{c_{\text{medio}}}$ es el indice de refracción. Además $A$ y $B$ representan el punto final e inicial respectivamente y $d\sigma$ representa un segmento infinitesimal de la curva descrita. Introduciendo la parametrización $x = x(u)$, $y = y(u)$, $z = z(u)$, se puede expresar $d\sigma = \sqrt{\left(\frac{dx}{du}\right)^2 + \left(\frac{dy}{du}\right)^2 + \left(\frac{dz}{du}\right)^2}du$ o denotando la diferenciación por $u$ con un punto $d\sigma = \sqrt{\dot x^2 + \dot y^2 + \dot z^2}du$ . Tomando también los puntos $A = u_1$ y $B = u_2$ como constantes el funcional a minimizar es: 
+
+\begin{equation}\label{ec:accion_optica}
+    S = \int_{u_1}^{u_2}n(x, y, z)\sqrt{\dot x^2 + \dot y^2 + \dot z^2}du
+\end{equation}
+
+De esta forma es posible aplicar las ecuaciones de Euler-Lagrange al problema para encontrar la curva que minimiza \ref{ec:accion_optica}, que se puede llamar acción óptica de manera análoga a la acción de la mecánica clásica. Siguiendo con la analogía, el equivalente del lagrangiano es $F = n(x, y, z)\sqrt{\dot x^2 + \dot y^2 + \dot z^2}$, el cual debe seguir cada una de las ecuaciones de Euler $\frac{d}{du}\frac{\partial F}{\partial q_i} - \frac{\partial F}{\partial q_i}$, con $q_i = x, z, y$. De esta forma se obtienen tres ecuaciones con un alto grado de simetría, por ejemplo la ecuación para $x$ queda:
+
+\begin{equation}
+    \frac{d}{du}\left(\frac{n\dot x}{\sqrt{\dot x^2 + \dot y^2 + \dot z^2}}\right) - \sqrt{\dot x^2 + \dot y^2 + \dot z^2}\frac{\partial n}{\partial n} = 0
+\end{equation}
+
+Estas ecuaciones pueden ser simplificadas introduciendo un vector unitario $\vec s$ tangente al rayo, con componentes $s_i = \frac{d q_i}{d \sigma} = \frac{dq_i /du}{d\sigma/ du} =  \frac{\dot q_i}{\sqrt{\dot x^2 + \dot y^2 + \dot z^2}}$. De esta manera las ecuaciones quedan simplificadas a: 
+
+\begin{equation}
+    \frac{d(ns_i)}{d\sigma} - \frac{\partial n}{\partial q_i} = 0
+\end{equation}
+
+Estas tres ecuaciones pueden ser unidas en una sola ecuación vectorial: 
+
+\begin{equation}\label{ec:rayo_general}
+    \frac{d(n\vec s)}{d \sigma} - \nabla n = 0
+\end{equation}
+
+Si el índice de refracción se da como una función de las coordenadas, la ecuación \ref{ec:rayo_general} junto con $\vec s = \frac{d \vec r}{d \sigma}$ permite encontrar las trayectorias de un rayo dadas condiciones iniciales. 
+
+Para aplicar métodos perturbativos a \ref{ec:rayo_general}, el indice de refracción se expandirá como $n(x, y, z) = 1+ \mu(x, y, z)$, con $|\mu| \ll 1$. Con esto la ecuación puede ser reescrita como 
+
+\begin{equation}\label{ec:rayo_perturbado}
+    \frac{d(n\vec s)}{d \sigma} - \nabla \mu = 0
+\end{equation}
+
+Es posible calcular la desviación cuadrática media $\overline{\epsilon^2}$ del ángulo $\epsilon$ de un rayo con respecto a su dirección original tras viajar una distancia $\Delta \sigma$. Se debe escoger el camino lo suficientemente grande para ser mayor que la distancia de correlación del indice de refracción, pero lo suficientemente pequeño como para que la desviación sea pequeña. Integrando \ref{ec:rayo_perturbado} en el camino:
+
+\begin{equation}
+    n'\vec{s'} - n\vec{s} = \int_{0}^{\Delta \sigma} \nabla \mu d\sigma
+\end{equation}
+
+La desviación del rayo dependerá unicamente del valor del indice de refracción en camino recorrido, no de su valor en los puntos inicial y final. Por ello, es posible tomar los índices como su valor medio de la unidad. Se obtiene:
+
+\begin{equation}
+    \vec{s'} - \vec{s} = \int_{0}^{\Delta \sigma} \nabla \mu d\sigma
+\end{equation}
+
+Elevando ambos lados al cuadrado y utilizando propiedades vectoriales de $\vec{s}$ junto con ángulos pequeños se puede obtener:
+
+\begin{equation}
+    (\vec{s'} - \vec{s})^2 = 2(1 - \vec{s'}\cdot \vec{s}) = 2(1-\cos(\epsilon)) \backsim\epsilon^2
+\end{equation}
+
+Con esto se puede obtener: 
+
+\begin{equation}
+    \epsilon^2 = \left(\int_0^{\Delta \sigma}\nabla \mu d\sigma\right)\cdot\left(\int_0^{\Delta \sigma}\nabla \mu d\sigma\right) = \int_0^{\Delta \sigma} \int_0^{\Delta \sigma}\nabla_1  \nabla_2(\mu_1 \mu_2) d\sigma_1 d\sigma_2
+\end{equation}
+
+Tomando el promedio temporal y utilizando la función de correlación: 
+
+\begin{equation}
+    \overline{\epsilon^2} = \overline{\mu^2}\int_0^{\Delta \sigma} \int_0^{\Delta \sigma} \nabla_1  \nabla_2 N(x_1-x_2, y_1-y_2, z_1-z_2)d\sigma_1 d\sigma_2
+\end{equation}
+
+Como la curvatura del rayo es pequeña, es posible reemplazar el camino de integración por una linea recta:
+
+\begin{equation}
+    \overline{\epsilon^2} = \overline{\mu^2}\int_0^{\Delta \sigma} \int_0^{\Delta \sigma} \nabla_1  \nabla_2 N(x_1-x_2, y_1-y_2, z_1-z_2)dr_1 dr_2
+\end{equation}
+
+Para simplificar, se puede realizar un cambio a coordenadas relativas $x = x_1 - x_2$, $y = y_1 - y_2$, $z = z_1 - z_2$ y $r = r_1 - r_2$ y coordenadas de centro de masa: $x_0 = \frac{1}{2}(x_1+x_2)$, $y_0 = \frac{1}{2}(y_1+y_2)$, $z_0 = \frac{1}{2}(z_1+z_2)$ y $r_0 = \frac{1}{2}(r_1+r_2)$. Con ello queda:
+
+\begin{equation}
+    \nabla_1  \nabla_2 N(x_1-x_2, y_1-y_2, z_1-z_2) = - \nabla^2N(x, y, z)
+\end{equation}
+
+Junto con $dr_1dr_2 = dr_0dr$. Teniendo en cuenta que la función de correlación debe, por análisis dimensional, depender de una longitud de correlación $a$. Suponiendo esta constante como $\Delta \sigma \gg a$, los límites de integración en $r$ será el conjunto de los números reales. Con todo esto queda: 
+
+\begin{equation}
+    \overline{\epsilon^2} = -\overline{\mu^2}\int_0^{\Delta \sigma} dr_0\int_{-\infty}^{\infty}\nabla^2N(x, y, z)dr
+\end{equation}
+
+Teniendo en cuenta que $N$ es una función par finalmente e integrando en la coordenada $r_0$ se obtiene:
+
+\begin{equation}
+    \overline{\epsilon^2} = -2\overline{\mu^2}\Delta \sigma \int_0^{\infty}\nabla^2N(x, y, z)dr
+\end{equation}
+
+Para un medio estadísticamente isotrópico, la función de correlación dependerá unicamente de $r =\sqrt{x^2+y^2+z^2}$ y el laplaciano será más simple en coordenadas esféricas:
+
+\begin{equation}
+    \overline{\epsilon^2} = -2\overline{\mu^2}{\Delta \sigma}\int_0^{\infty}\frac{1}{r^2}\frac{\partial}{\partial r} \left( r^2\frac{\partial N(r)}{\partial r}\right) dr
+\end{equation}
+
+Utilizando $N(r) = e^{-\frac{r^2}{a^2}}$ se puede encontrar:
+
+\begin{equation}
+    \overline{\epsilon^2} = 4 \sqrt{\pi} \Delta \sigma \frac{\overline{\mu^2}}{a}
+\end{equation}
+
+\subsubsection{Ecuación de onda con métodos perturbativos}
+
+El problema a considerar puede formularse como sigue. Una onda electromagnética monocromática plana incide sobre un volumen $V$ de un medio turbulento; debido a la mezcla turbulenta dentro del volumen $V$, aparecen fluctuaciones irregulares del índice de refracción, que dispersan la onda electromagnética incidente. Se requiere encontrar la densidad media de la energía dispersada en una dirección dada. Para resolver el problema, supondremos que el campo de índice de refracción dentro del volumen V es una función aleatoria de las coordenadas y no depende del tiempo. Para esta sección se seguirá el capítulo 4 de \cite{tatarski_wave_1967}.
+
+En el volumen del medio turbulento, los campos electromagnéticos vendrán descritos por las ecuaciones de Maxwell en la materia \ref{ec:maxwell_materia_div} y \ref{ec:maxwell_materia_rot}. Para este problema se considerará una ausencia de carga y corriente libres ($\rho_f = 0$, $\mathbf{J}_f = 0$). Además el medio se considerará un dieléctrico lineal $\mathbf{D} = \epsilon \mathbf{E}$, $\mathbf{H} = \frac{1}{\mu}\mathbf{B}$.
+
+Suponiendo que la conductividad del medio es cero, y que la permeabilidad magnética relativa es la unidad. Además se considerará una dependencia temporal de los campos dada por el factor $e^{-iwt}$. De esta manera los campos completos tomarán la forma $\mathbf{E}(\vec{r}, t) = \vec{E}(\vec{r})e^{-iwt}$ y $\mathbf{H}(\vec{r}, t) = \vec{H}(\vec{r})e^{-iwt}$. De esta forma las ecuaciones de Maxwell para las amplitudes de los campos tomarán la siguiente forma:
+
+\begin{equation}\label{ec:maxwell_simple_materia_div}
+    \nabla\cdot (\epsilon\vec{E}) = 0 \quad \nabla\cdot \vec{B} = 0 
+\end{equation}
+
+\begin{equation}\label{ec:maxwell_simple_materia_curl}
+    \nabla\times\vec{E} = ik\vec{H}; \quad \nabla\times \vec{H} = -ik\epsilon\vec{E}
+\end{equation}
+
+Donde $k = \frac{w}{c}$ es el número de onda de la onda electromagnética y $\epsilon$ es la constante dieléctrica del material.
+
+Tomando el rotacional de la primera ecuación en \ref{ec:maxwell_simple_materia_curl} y usando \ref{ec:maxwell_simple_materia_div}:
+
+\begin{equation}\label{ec:amplitud_E_materia}
+    \nabla(\nabla\cdot\vec{E}) - \nabla^2 \vec{E} = k^2 \epsilon\vec{E}
+\end{equation}
+
+Como en general $\nabla\cdot(u\vec{A}) = \vec{A}\cdot(\nabla u) + u\nabla\cdot\vec{A}$, se obtendrá:
+
+\begin{equation}
+    \nabla\cdot(\epsilon\vec{E}) = \vec{E}\cdot(\nabla\epsilon) + \epsilon\nabla\cdot\vec{E} = 0
+\end{equation}
+
+Reorganizando términos y usando la regla de la cadena queda:
+
+\begin{equation*}
+    \epsilon\nabla\cdot\vec{E} = -\vec{E}\cdot(\nabla\epsilon) \Rightarrow \nabla\cdot\vec{E} = -\vec{E}\cdot\left(\frac{1}{\epsilon}\nabla\cdot\epsilon\right) = -\vec{E} \cdot \nabla \ln \epsilon
+\end{equation*}
+
+Lo que significa que: 
+\begin{equation}\label{ec:amp_E_div_epsilon}
+    \nabla\cdot\vec{E} = -\vec{E} \cdot \nabla \ln \epsilon
+\end{equation}
+
+Al ser la permeabilidad magnética la unidad, se puede tomar $\epsilon = n^2$. Utilizando esto, y sustituyendo \ref{ec:amp_E_div_epsilon} en \ref{ec:amplitud_E_materia} se llega a:
+
+\begin{equation}
+    -2\nabla(\vec{E} \cdot \nabla \ln n) - \nabla^2 \vec{E} = k^2 n^2\vec{E}
+\end{equation}
+
+Para comparar esta ecuación con la ecuación de onda en el vacío, se pueden reorganizar los términos de la siguiente manera:
+
+\begin{equation}\label{ec:amp_E_termino_extra}
+     \nabla^2 \vec{E} + k^2 n^2\vec{E} + 2\nabla(\vec{E} \cdot \nabla \ln n) = 0
+\end{equation}
+
+Es posible ver que si se realiza la aproximación en la cual $\epsilon$ es una constante que no depende la posición, el sumando final $\nabla(\vec{E} \cdot \nabla \ln \epsilon)$ tenderá a cero, ya que el gradiente de un campo constante es cero en todos los puntos. De esta forma se recupera $\nabla^2 \vec{E} + k^2 n^2\vec{E} = 0$, cuya forma es la parte espacial de una ecuación de onda.
+
+Se resolverá la ecuación \ref{ec:amp_E_termino_extra} utilizando un método perturbativo. Para ello se supondrá que las fluctuaciones de $n$ son pequeñas. De esta forma, asumiendo que el valor promedio de $n$ es $\overline{n}$ y sus fluctuaciones vienen denotadas por $n_1$ se tendrá que $|n-\overline{n}| \ll 1$. Para simplificar los cálculos se asumirá que $\overline{n} = 1$, pero esto no supone una pérdida de generalidad, ya que es posible recuperar el término $\overline{n}$ substituyendo $k$ por $\overline{n}k$. Sustituyendo $n = 1 + n_1$ en \ref{ec:amp_E_termino_extra} se obtiene:
+
+\begin{equation}
+     \nabla^2 \vec{E} + k^2 (1+n_1)^2\vec{E} + 2\nabla(\vec{E} \cdot \nabla \ln (1+n_1)) = 0
+\end{equation}
+
+Que se puede expandir a:
+
+\begin{equation}
+     \nabla^2 \vec{E} + k^2 \vec{E}= - 2\nabla(\vec{E} \cdot \nabla \ln (1+n_1)) - 2k^2n_1 \vec{E} - k^2n_1^2 \vec{E}
+\end{equation}
+
+Se desea obtener una solución de $\vec{E}$ en una serie $\vec{E} = \vec{E_0} + \vec{E_1} + \vec{E_2}+\cdots$ donde cada término tiene el mismo orden de las respectivas potencias de $n_1$. Para ello, primero se expandirá el término del logaritmo utilizando su serie: $\ln(1+n_1) = n_1-\frac{1}{2}n_1^2+ \cdots$. En este caso, debido a los ordenes con los que trabajar y por simplicidad, se tomará el primer término de esta serie, despreciando términos con $n_1^2$. Con esto queda: 
+
+\begin{equation}\label{ec:amp_E_pert_1}
+     \nabla^2 \vec{E} + k^2 \vec{E}= - 2\nabla(\vec{E} \cdot \nabla n_1) - 2k^2n_1 \vec{E}
+\end{equation}
+
+Substituyendo esta serie truncada a $\vec{E} = \vec{E_0} + \vec{E_1}$ en \ref{ec:amp_E_pert_1} se tiene:
+
+\begin{equation}
+    \nabla^2 \vec{E_0} + k^2 \vec{E_0} + \nabla^2 \vec{E_1} + k^2 \vec{E_1} = - 2\nabla(\vec{E_0} \cdot \nabla n_1) - 2\nabla(\vec{E_1} \cdot \nabla n_1) - 2k^2n_1 (\vec{E_0} + \vec{E_1})
+\end{equation}
+
+Para proceder se deben agrupar términos por orden de magnitud e igualarlos a cero. Se pueden distinguir dos grupos (con ordenes iguales al orden de $n_1^0$ y $n_1$):
+
+\begin{equation}
+    \nabla^2 \vec{E_0} + k^2 \vec{E_0} = 0
+\end{equation}
+
+\begin{equation}\label{ec:amp_E_pert_grupo2}
+    \nabla^2 \vec{E_1} + k^2 \vec{E_1} = - 2k^2n_1\vec{E_0} - 2\nabla(\vec{E_0} \cdot \nabla n_1)
+\end{equation}
+
+La cantidad $\vec{E_0}$ representa la amplitud del campo eléctrico de la onda incidente. Suponiendo que la onda incidente es plana, se puede fijar $\vec{E_0}= \vec{A_0}e^{i\vec{k}\cdot\vec{r}}$. La cantidad $\vec{E_1}$ representa la amplitud del campo eléctrico de la onda dispersada. 
+
+La solución de la ecuación $\nabla^2u + k^2 u = f(\vec{r})$ (ecuación de Helmholtz inhomogenia) viene dada por (ver subsección \ref{subsect:green} junto con las referencias \cite{jackson_classical_1975}, \cite{morse_methods_1999}):
+
+\begin{equation}\label{ec:solucion_hemholz_inhomogenia}
+    u(\vec{r}) = \frac{1}{4\pi} \int_V f(\vec{r'}) \frac{\exp(ik |\vec{r}- \vec{r'}|)}{|\vec{r}- \vec{r'}|}dV'
+\end{equation}
+
+donde $\vec{r'}$ es el vector que recorre todo el volumen. Tomando el origen de coordenadas en el volumen, y suponiendo que $\vec{r}$ está muy alejado del mismo (relativamente al tamaño del volumen), es posible aproximar la cantidad $|\vec{r}- \vec{r'}|$ en primer orden como:
+
+\begin{equation}
+    |\vec{r}- \vec{r'}| = r -\hat{r} \cdot \vec{r'}
+\end{equation}
+
+Donde $\hat{r}$ es el vector unitario de $\vec{r}$. Esto se cumplirá si la dimensión del volumen $L$ satisface $\lambda r \gg L^2$. Además, en el denominador de \ref{ec:solucion_hemholz_inhomogenia} se puede reemplazar $|\vec{r}- \vec{r'}| = r$. Con esto queda:
+
+\begin{equation}\label{ec:hemholz_inhomogenia_aprox}
+    u(\vec{r}) = \frac{1}{4\pi} \frac{e^{ikr}}{r} \int_V f(\vec{r'}) e^{-ik\hat{r} \cdot \vec{r'}} dV'
+\end{equation}
+
+Se puede utilizar \ref{ec:hemholz_inhomogenia_aprox} para resolver \ref{ec:amp_E_pert_grupo2}, obteniendo:
+
+\begin{equation}
+    \vec{E_1} = \frac{k^2}{2\pi} \frac{e^{ikr}}{r} \int_V n_1(\vec{r'}) \vec{A_0}e^{i\vec{k}\cdot\vec{r'}} e^{-ik\hat{r} \cdot \vec{r'}} dV' + \frac{1}{2\pi} \frac{e^{ikr}}{r} \int_V \nabla(e^{i\vec{k}\cdot\vec{r'}} \vec{A_0}\cdot \nabla n_1(\vec{r'})) e^{-ik\hat{r} \cdot \vec{r'}} dV'
+\end{equation}
+
+Utilizando en teorema de Gauss, es posible llegar a la identidad $\int_V \nabla \phi dV'= \int_S \phi  d\vec{\sigma}$. Si aplicamos esta identidad a $\phi = uv$, siendo todos campos escalares se puede llegar a: 
+
+\begin{equation}
+    \int_V u\nabla v dV' = \int_S uvd\vec{\sigma} - \int_V v\nabla u dV'
+\end{equation}
+
+Lo que permite simplificar la segunda integral, ya que la integral sobre la superficie será cero si se escoge una superficie lo suficientemente alejada del volumen de integración. Aplicando el hecho de que $\nabla(e^{ik\hat{r} \cdot \vec{r'}}) = ik \hat{r} e^{-ik\hat{r} \cdot \vec{r'}}$ se puede obtener para la segunda integral:
+
+\begin{equation}
+    \int_V \nabla(e^{i\vec{k}\cdot\vec{r'}} \vec{A_0}\cdot \nabla n_1(\vec{r'})) e^{-ik\hat{r} \cdot \vec{r'}} dV' = ik \hat{r} \int_V (\vec{A}_0 \cdot \nabla n_1(\vec{r'})) e^{i\vec{k}\cdot\vec{r'}}e^{-ik\hat{r} \cdot \vec{r'}} dV'
+\end{equation}
+
+Finalmente se puede escribir el campo eléctrico como:
+
+\begin{equation}\label{ec:solucion_E_pert}
+    \vec{E_1} = \frac{k^2 e^{ikr}}{2\pi r} C_1 \vec{A}_0  + \frac{ike^{ikr}}{2\pi r}C_2\hat{r}
+\end{equation}
+
+Con
+
+\begin{equation}
+    C_1 =\int_V n_1(\vec{r'}) e^{i\vec{k}\cdot\vec{r'}} e^{-ik\hat{r} \cdot \vec{r'}} dV' \quad C_2=ik \hat{r} \int_V (\vec{A}_0 \cdot \nabla n_1(\vec{r'})) e^{i\vec{k}\cdot\vec{r'}}e^{-ik\hat{r} \cdot \vec{r'}} dV'
+\end{equation}
+
+Para los cálculos de energía se asumirá que el campo es puramente transversal, eliminando el segundo término de la ecuación \ref{ec:solucion_E_pert}.
+
+Para calcular la densidad del flujo de la energía dispersada es necesario calcular el vector de Poynting (o mejor dicho su promedio temporal en un periodo de oscilación) $\vec{S} = \frac{1}{2} \text{Re} \left(\vec{E}_1 \times \vec{H}_1^*\right)$. Para ello es necesario encontrar $\vec{H}$, lo que se puede hacer con la primera de las ecuaciones en \ref{ec:maxwell_simple_materia_curl}:
+
+\begin{equation}\label{ec:solucion_H_pert}
+    \vec{H}_1 = \frac{k^2 C_1}{2\pi i k} \nabla\times \left(\frac{e^{ikr}}{r} \vec{A}_0\right) = \frac{k^2 C_1}{2\pi i k} \vec{A}_0 \times  \nabla \left(\frac{e^{ikr}}{r}\right)
+\end{equation}
+
+$$= \frac{k^2 C_1}{2\pi i k} \left(\frac{ike^{ikr}}{r} - \frac{e^{ikr}}{r^2}\right) \hat{r} \times \vec{A}_0 \sim \frac{k^2 C_1 e^{ikr}}{2\pi r} \hat{r} \times \vec{A}_0$$
+
+Donde se desprecia el término $\frac{e^{ikr}}{r^2}$ por decaer muy rápido. Sustituyendo \ref{ec:solucion_E_pert} y \ref{ec:solucion_H_pert} en la fórmula para el vector de Poynting se obtiene: 
+
+\begin{equation}
+    \vec{S} = \frac{k^4}{16\pi r^2} C_1 C_1^* \vec{A}_0 \times (\hat{r} \times \vec{A}_0) = \frac{k^4}{16\pi r^2} C_1 C_1^* (\hat{r}(\vec{A}_0 \cdot \vec{A}_0) - \vec{A}_0(\hat{r} \cdot \vec{A}_0))
+\end{equation}
+
+La densidad de flujo energético en la dirección de $\vec{r}$ es:
+
+\begin{equation}
+    S_{r} = \vec{S} \cdot \hat{r} = \frac{k^4 C_1 C_1^*}{16\pi^2 r^2} (A_0^2 - (\hat{r} \cdot \vec{A}_0)^2) = \frac{k^4 A_0^2 \sin^2\chi}{16\pi^2 r^2} C_1 C_1^*
+\end{equation}
+
+Donde $\chi$ es el ángulo entre los vectores $\vec{A_0}$ y $\hat{r}$. Substituyendo la expresión para $C_1$ se obtiene:
+
+\begin{equation}
+    S_{\hat{r}} = \frac{k^4 A_0^2 \sin^2\chi}{16\pi^2 r^2} \iint_{V V} n_1(\vec{r}_1) n_1(\vec{r}_2) e^{i(\vec{k} - k\hat{r}) \cdot (\vec{r}_1 - \vec{r}_2)} dV_1 dV_2
+\end{equation}
+
+Esto significa que la cantidad $S_r$ es un campo aleatorio. Su valor medio es igual a:
+
+\begin{equation}\label{ec:pointyn}
+    \overline{S}_{r} = \frac{k^4 A_0^2 \sin^2\chi}{16\pi^2 r^2} \iint_{V V} \overline{n_1(\vec{r}_1) n_1(\vec{r}_2)} e^{i(\vec{k} - k\hat{r}) \cdot (\vec{r}_1 - \vec{r}_2)} dV_1 dV_2
+\end{equation}
+
+Por lo tanto queda $S_m$ expresado en términos de la función de correlación espacial, tal y como se define en \cite{tatarski_wave_1967}, $B_f(\vec{r}_1 - \vec{r}_2) = \overline{n(\vec{r}_1)n(\vec{r}_2)}$. Realizando el cambio de variable $2\vec{r} = \vec{r}_1 + \vec{r}_2$ y $\vec{\rho} = \vec{r}_1 - \vec{r}_2$, es posible simplificar \ref{ec:pointyn} realizando la integral con respecto a $r$ lo que añade un factor de $V$:
+
+\begin{equation}\label{ec:pointyn_2}
+    \overline{S}_{r} = \frac{k^4 VA_0^2 \sin^2\chi }{16\pi^2 r^2}\int_V B_f(\vec{\rho}) e^{i(\vec{k} - k\hat{r}) \cdot \vec{\rho}} dV_\rho
+\end{equation}
+
+Desde este punto se deben seguir métodos espectrales en la función de correlación para seguir transformando la expresión. En específico si se expresa la función de correlación en función de su espectro en el espacio de Fourier $\Phi_n(\vec\kappa)$ se puede llegar a:
+
+\begin{equation}
+    \overline{S}_{\vec{m}} = \frac{k^4 V A_0^2 \sin^2\chi}{r^2} \tilde{\Phi}_n(\vec{k} - k\vec{m})
+\end{equation}
+
+Donde $ \tilde{\Phi}_n$ indica un promedio espacial en un volumen en el espacio de Fourier. De esta manera se puede obtener el flujo de energía de la onda perturbada.
+
+Es posible calcular tambien el llamado nivel de fluctuaciones en escala logaritmica. Suponiendo que las dimensiones geométricas de todas las inhomogeneidades en la distribución espacial del índice de refracción son mucho mayores que la longitud de onda $\lambda$ (es decir, que $\lambda \ll l_0$, donde $l_0$ es la escala interna de la turbulencia), es posible despreciar el último término de la ecuación \ref{ec:amp_E_termino_extra}. Así, la propagación de ondas cortas ($\lambda \ll l_0$) en un medio no homogéneo se describe mediante la ecuación:
+
+\begin{equation}\label{ec:E_medio_no_homogeneo}
+    \nabla^2 \vec{E} + k^2 n^2(\vec{r})\vec{E} = 0
+\end{equation}
+
+La ecuación vectorial \ref{ec:E_medio_no_homogeneo} se reduce a tres ecuaciones escalares:
+
+\begin{equation}\label{ec:u_basica}
+    \nabla^2 u + k^2 n^2(\vec{r})u = 0
+\end{equation}
+
+donde $u$ representa cada uno de los componentes de $\vec{E}$. Se tomará $u = A e^{iS}$, donde $A$ es la amplitud y $S$ la fase. En el análisis completo (referise a \cite{tatarski_wave_1967}), se expande $\ln A = \ln A_0 + \chi$, donde se define $\chi$ como el nivel de fluctuaciones de la amplitud o amplitud logarítmica (log-amplitud). Utilizando métodos espectrales para trabajar con las inhomogeneidades y expandiendo \ref{ec:u_basica} con métodos perturbativos es posible llegar a la expresión:
+
+\begin{equation}\label{ec:log_amplitud}
+    \overline{\left(\log \frac{A}{A_0}\right)^2} = 2.46 C_n^2 L^3l_0^{-7/3}
+\end{equation}
+
+Donde $L$ es la distancia recorrida por la onda, $l_0$ es la escala interna de la turbulencia y $C_n$ expresa la fuerza de la turbulencia. Así, la fluctuación cuadrática media del logaritmo de la amplitud depende de las dimensiones de las menores inhomogeneidades del índice de refracción (en la escala interna de la turbulencia $l_0$) y es proporcional a la característica $C_n$ de la función de estructura de las fluctuaciones del índice de refracción.

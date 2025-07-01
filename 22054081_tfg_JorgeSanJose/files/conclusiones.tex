@@ -1,0 +1,16 @@
+\section{Conclusiones}
+\subsection{Conclusiones del trabajo}
+
+Este TFG a explorado el impacto de la turbulencia en ondas infrarrojas. Se han visto efectos de atenuación y dispersión que afectan la calidad de la señal. Los fundamentos teóricos, basados en las ecuaciones de Maxwell y las funciones de Green, proporcionan un marco robusto para modelar este fenómeno. Las simulaciones FDTD revelan que la escala de la turbulencia es un factor crítico, con mayores inhomogeneidades resultando en una mayor pérdida de energía.
+
+Los resultados tienen implicaciones prácticas para tecnologías que dependen de ondas IR, como sistemas de comunicación óptica y sensores remotos. Comprender y mitigar los efectos de la turbulencia puede mejorar la fiabilidad de estos sistemas, especialmente en entornos con condiciones atmosféricas adversas. 
+
+\subsection{Futuras líneas de trabajo}
+
+Una posible futura linea de trabajo es extender el análisis numérico presentado a tres dimensiones. Debido a la forma en la que se maneja internamente la simulación en la librería utilizada, esta extensión debería resultar sencilla. El subsecuente análisis y representación de los resultados obtenidos podría plantear retos interesantes. 
+
+Cabe también explorar más profundamente la unión entre la simulación electromagnética y la del fluido. Esto sería clave si se quiere investigar efectos en los que la onda electromagnética afecta al fluido, por ejemplo efectos de disipación energética de la onda que alteran la energía del fluido. Para esto podría llegar a ser necesario una implementación propia del método FDTD.
+
+Una aproximación más cuidadosa a la generación de la permitividad aleatoria, como las usadas en \cite{moss_finite-difference_2002} podría también mejorar la simulación. Podría también comenzarse este análisis estableciendo un método riguroso para generar campos aleatorios continuos con propiedades estadísticas dadas a partir de convoluciones. 
+
+Otras futuras lineas pueden incluir: Validar los resultados de la simulación con datos experimentales reales de propagación de IR en entornos turbulentos, explorar estrategias de mitigación directamente en el entorno de simulación (como la implementación de ópticas adaptativas), investigar turbulencias no isotrópicas (como flujo turbulento).

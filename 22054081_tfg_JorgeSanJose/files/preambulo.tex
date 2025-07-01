@@ -1,0 +1,173 @@
+% Preambulo del TFG en si mismo: portada, titulo, configuración del encabezado, página resumen, abstract en español e inglés, e indices de tablas y figuras
+
+\begin{titlepage}
+% --------------------------------------------- Título -------------------------------------------
+
+    \includegraphics[width=\linewidth]{figures/UEM-Logo-letra2.png}
+
+    % Espacio vertical
+    \vspace*{1cm}
+    
+    \begin{center}
+        \Large\textbf{UNIVERSIDAD EUROPEA DE MADRID} 
+        
+        \vspace{2cm}
+        \large\textbf{ESCUELA DE ARQUITECTURA, INGENIERÍA Y DISEÑO} 
+        
+        \vspace{1.3cm}
+        \large\textbf{GRADO EN FÍSICA} 
+        
+        \vspace{3cm}
+        \large TRABAJO FIN DE GRADO 
+        
+        \vspace{1.4cm}
+        \Large\textbf{Efecto de la turbulencia en propagación de IR}
+        
+    \end{center}
+    
+% --------------------------------------------- Autores ------------------------------------------
+    \begin{center}
+        \vspace{1.2cm}
+        \large JORGE SAN JOSÉ VILLAR 
+        
+        Dirigido por
+        
+        Dr. RODRIGO BLASCO CHICANO
+    \end{center}
+    
+% ---------------------------------------------- Fecha -------------------------------------------
+
+    \begin{center}
+        CURSO 2024-2025
+    \end{center}
+
+\end{titlepage}
+
+%\rule{\textwidth}{0.8pt} % rompe la segunda página
+
+% ------------------------------------- Configuración de encabezado ---------------------------------
+
+\setlength{\headheight}{30.14165pt} % Ajusta la altura del encabezado
+%\addtolength{\topmargin}{-18.14165pt} % Ajusta el margen superior (opcional)
+
+\pagestyle{fancy} % Activa el uso de fancyhdr
+\fancyhf{} % Borra encabezados y pies de página predeterminados
+
+% Encabezado izquierdo con texto
+\fancyhead[L]{\textbf{Efecto de la turbulencia en propagación de IR} \\ Jorge San José}
+
+% Encabezado derecho con imagen (ajusta la altura según necesites)
+\fancyhead[R]{\includegraphics[width=2.5cm]{figures/UEM-Logo-Letra.png}}
+
+% Pie de página con número de página centrado
+\fancyfoot[C]{\thepage}
+
+% Evitar encabezados en páginas en blanco
+\makeatletter
+\renewcommand{\cleardoublepage}{\clearpage\thispagestyle{plain}}
+\makeatother
+
+\setlength{\columnsep}{1cm} % o ajusta a tu gusto
+\setlength{\columnseprule}{0pt} % Línea entre columnas, si quieres una fina usa 0.2pt
+
+\raggedcolumns
+
+% ------------------------------------- Pagina resumen titulo ---------------------------------------
+
+TÍTULO: EFECTO DE LA TURBULENCIA EN PROPAGACIÓN DE IR 
+
+\vspace*{1cm}
+AUTOR: JORGE SAN JOSÉ VILLAR
+
+\vspace*{1cm}
+TITULACIÓN: GRADO EN FÍSICA 
+
+\vspace*{1cm}
+DIRECTOR DEL PROYECTO: Dr. RODRIGO BLASCO CHICANO
+
+\vspace*{1cm}
+FECHA: JUNIO de 2025
+
+\newpage
+
+% ----------------------------------- Abstract: español e inglés ------------------------------------
+
+\addcontentsline{toc}{section}{Resumen}
+\section*{Resumen}
+
+\begin{otherlanguage}{spanish}
+    \begin{abstract}
+        Este proyecto final de grado aborda el problema de la propagación de ondas electromagnéticas, específicamente infrarrojas (IR), a través de medios turbulentos, como la atmósfera. Reconociendo la importancia de comprender estos fenómenos para optimizar sistemas en entornos dinámicos y heterogéneos, el estudio combina metodologías teóricas y numéricas. Teóricamente, se exploran el enfoque de la óptica geométrica para ondas cortas y métodos perturbativos de la ecuación de onda para distancias mayores, revelando cómo las fluctuaciones del índice de refracción afectan la amplitud y fase de las ondas. Numéricamente, se implementa el algoritmo de Diferencias Finitas en el Dominio del Tiempo (FDTD), utilizando Python y la librería FDTD de Floris Laporte, para simular la propagación en un medio con permitividad aleatoria que modela la turbulencia del aire. Los principales resultados incluyen el análisis de la variación cuadrática media del logaritmo de la amplitud en función de la escala de la turbulencia, con simulaciones que corroboran las predicciones teóricas. La principal conclusión es la validación de un enfoque simple que permite modelar y predecir los efectos de la turbulencia en la propagación de IR, sentando las bases para futuras aplicaciones en el análisis de señales e imágenes.
+    \end{abstract}
+\end{otherlanguage}
+
+\textbf{Palabras clave}: \textbf{Turbulencia, Ondas Electromagnéticas, Dinámica de Fluidos, Métodos Perturbativos, Método FDTD}
+
+\newpage
+
+\addcontentsline{toc}{section}{Abstract}
+\section*{Abstract}
+
+\begin{otherlanguage}{english}
+    \begin{abstract}
+        This final degree project addresses the problem of electromagnetic wave propagation, specifically infrared (IR), through turbulent media, such as the atmosphere. Recognizing the importance of understanding these phenomena to optimize systems in dynamic and heterogeneous environments, the study combines theoretical and numerical methodologies. Theoretically, the geometrical optics approach for short waves and perturbative wave equation methods for longer distances are explored, revealing how refractive index fluctuations affect wave amplitude and phase. Numerically, the Finite Difference Time Domain (FDTD) algorithm is implemented, using Python and Floris Laporte's FDTD library, to simulate propagation in a medium with random permittivity that models air turbulence. The main results include the analysis of the root mean square variation of the logarithm of the amplitude as a function of the scale of the turbulence, with simulations that corroborate the theoretical predictions. The main conclusion is the validation of a simple approach to model and predict the effects of turbulence on IR propagation, laying the foundation for future applications in signal and image analysis.
+    \end{abstract}
+    \textbf{Key words}: \textbf{Turbulence, Electromagnetic Waves Fluid Dynamics, Perturbation Methods, FDTD Method}
+\end{otherlanguage}
+
+\newpage
+
+% ------------------------------------------ Tabla resumen ------------------------------------------
+
+\addcontentsline{toc}{section}{Tabla resumen}
+\section*{Tabla resumen}
+
+\begin{otherlanguage}{spanish}
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{1.0\textwidth} { | >{\centering\arraybackslash}X | >{\centering\arraybackslash}X | }
+        \hline
+         & \textbf{Datos} \\
+        \hline
+        \textbf{Nombre y apellidos:} & Jorge San José Villar \\
+        \hline
+        \textbf{Título del proyecto:} & Efecto de la turbulencia en propagación de IR \\
+        \hline
+        \textbf{Directores del proyecto:} & Dr. Rodrigo Blasco Chicano\\
+        \hline
+        \textbf{El proyecto se ha realizado en colaboración de una empresa o a petición de una empresa:} & NO \\
+        \hline
+        \textbf{El proyecto ha implementado un producto:} & NO \\
+        \hline
+        \textbf{El proyecto ha consistido en el desarrollo de una investigación o innovación:} & SI \\
+        \hline
+        \textbf{Objetivo general del proyecto:} & Investigar y comprender el efecto de la turbulencia en la propagación de ondas infrarrojas (IR) mediante métodos teóricos y numéricos.\\
+        \hline
+    \end{tabularx}
+    \caption{Tabla resumen del proyecto}
+    \label{tab:tabla_resumen}
+\end{table}
+\end{otherlanguage}
+
+
+\newpage
+
+% ----------------------------------------------- Índices -------------------------------------------
+% indice normal
+\renewcommand*\contentsname{Índice}
+\tableofcontents % Si necesitas tabla de contenido
+\newpage
+
+% indice de figuras
+\addcontentsline{toc}{section}{Índice de figuras}
+\begin{otherlanguage}{spanish}
+    \listoffigures
+\end{otherlanguage}
+
+\newpage
+
+% indice de tablas
+\addcontentsline{toc}{section}{Índice de tablas}
+\begin{otherlanguage}{spanish}
+    \listoftables
+\end{otherlanguage}
